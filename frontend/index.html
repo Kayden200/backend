@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook AutoLiker</title>
+    <script>
+        async function login() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            let response = await fetch("http://localhost:8000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            let result = await response.json();
+            alert(result.message || result.error);
+        }
+
+        async function boostReaction() {
+            let postLink = document.getElementById("postLink").value;
+            let reactionType = document.getElementById("reactionType").value;
+            let email = document.getElementById("email").value;
+
+            let formData = new FormData();
+            formData.append("email", email);
+            formData.append("post_link", postLink);
+            formData.append("reaction_type", reactionType);
+
+            let response = await fetch("http://localhost:8000/boost", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            alert(result.message || result.error);
+        }
+    </script>
+</head>
+<body>
+    <h2>Facebook AutoLiker</h2>
+
+    <h3>Login</h3>
+    <input type="text" id="email" placeholder="Facebook Email"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+
+    <h3>Boost Reaction</h3>
+    <input type="text" id="postLink" placeholder="Facebook Post Link"><br>
+    <select id="reactionType">
+        <option value="like">Like</option>
+        <option value="love">Love</option>
+        <option value="haha">Haha</option>
+        <option value="wow">Wow</option>
+        <option value="sad">Sad</option>
+        <option value="angry">Angry</option>
+    </select><br>
+    <button onclick="boostReaction()">Boost</button>
+</body>
+</html>

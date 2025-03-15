@@ -1,0 +1,4 @@
+fastapi
+selenium
+undetected-chromedriver
+uvicorn
